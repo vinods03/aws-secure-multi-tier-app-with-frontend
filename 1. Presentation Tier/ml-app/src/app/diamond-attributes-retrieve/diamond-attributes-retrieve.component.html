@@ -1,0 +1,53 @@
+<app-home></app-home>
+
+<h3 class="mt-5 mb-3">Retrieve diamond attributes based on run_id</h3>
+
+<form [formGroup]="diamondAttrForm" (ngSubmit)="onSubmit()">
+
+    <div>
+        <label class="form-label">run_id:</label>
+        <input class="form-control" type="number" style="width:200px;" formControlName="run_id">
+        <small class="text-danger" *ngIf="diamondAttrForm.get('run_id')?.invalid && diamondAttrForm.get('run_id')?.touched">
+            run_id is required
+        </small>
+    </div>
+    <br>
+    <button class="btn btn-primary" type="submit" [disabled]="diamondAttrForm.invalid">Submit</button>
+    
+</form>
+
+ <br>
+
+ <!-- ngIf to ensure table is displayed only when there is a record to be shown -->
+ <table class="table table-striped" *ngIf="diamondEntry.carat != 0 && diamondEntry; else noRecord">
+    <thead>
+        <!-- <h5>{run_id}</h5> -->
+        <tr>
+            <th>carat:</th>
+            <th>cut:</th>
+            <th>color:</th>
+            <th>clarity:</th>
+            <th>depth:</th>
+            <th>table:</th>
+            <th>x:</th>
+            <th>y:</th>
+            <th>z:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <td>{{diamondEntry.carat}}</td>
+        <td>{{diamondEntry.cut}}</td>
+        <td>{{diamondEntry.color}}</td>
+        <td>{{diamondEntry.clarity}}</td>
+        <td>{{diamondEntry.depth}}</td>
+        <td>{{diamondEntry.table}}</td>
+        <td>{{diamondEntry.x}}</td>
+        <td>{{diamondEntry.y}}</td>
+        <td>{{diamondEntry.z}}</td>
+        
+    </tbody>
+</table>
+
+<ng-template #noRecord>
+    <p>No record available.</p>
+</ng-template>

@@ -1,0 +1,249 @@
+C:\Vinod\Angular2024>ng new ml-app -> Say y for routing & select CSS for styling.
+
+cd ml-app
+
+ng serve -o
+
+browser -> localhost:4200
+
+Remove everything except <router-outlet></router-outlet> in app.component.html & add <div class="container"></div>
+
+Ctrl+C to stop the service
+
+==============
+
+ng generate module home
+
+ng generate component home --module=home
+
+==============
+
+ng generate module mlforms
+
+ng generate component diamond-price-form --module=mlforms
+
+ng generate component car-price-form --module=mlforms
+
+==============
+
+ng generate service mlforms/diamond-price-service
+
+ng generate service mlforms/car-price-service
+
+==============
+
+ng generate interface models/diamond-price-model
+
+ng generate interface models/car-price-model
+
+===============
+
+Make CSS changes for styling:
+
+npm install bootstrap@5.3
+
+In styles.css, add @import "~bootstrap/dist/css/bootstrap.min.css"
+
+==============
+
+In app-routing.module.ts, add the routes for your web app, the imports will get added automatically
+
+In app.module.ts, add your modules HomeModule, MlformsModule & HttpClientModule
+
+In the landing component module home.module.ts add and import the RouterModule.
+
+In the landing page home.component.html, put in the appropriate text and add routes/buttons to create diamond / car entry.
+
+Check in browser after ng serve -o, that the routing is working as expected from home page
+
+============== Now focus on the forms
+
+First, diamond-price-form.
+
+In the module of the forms - mlforms.module.ts - make sure to import the following:
+CommonModule, HomeModule, FormsModule, ReactiveFormsModule, RouterModule
+
+In home.module.ts, export the HomeComponent
+
+So, now in diamond-price-form.component.html, you can add <app-home></app-home> to show the home page in diamond-price-form also.
+
+Now lets focus on diamond-price-form.component.ts -> implements OnInit & the corresponding method (blank for now)
+Then add the onSubmit() method (blank for now)
+Create a form group:  diamondPriceForm: FormGroup = new FormGroup({})
+Create constructors or instances of some classes that will be needed in the ts file:
+constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private diamondPriceService: DiamondPriceServiceService
+ ) {}
+
+Go back to diamond-price-form.component.html. Create a form using the form group created in ts file.
+Create all the labels / texts / buttons.
+
+Go back to diamond-price-form.component.ts and put in the code for ngOnInit using form group to group the columns and using Validators.
+Put in a simple alert message in the OnSubmit method.
+Verify the form is working as expected. 
+
+Now focus on the diamond-price-service.service.ts. Put in the code for addDiamond using the API url. 
+Before this, you will need to update the diamond-price-model.ts with the message structure.
+Then update the OnSubmit() method in diamond-price-form.component.ts to invoke the addDiamond function in the service.
+I was not able to get an alert message after successul form submission. 
+In the form page i.e. chrome, i did Ctrl+Shift+J to open console and saw an error related to CORS. So i went back to API, enabled CORS, redeployed API and then tried submitting.
+alert worked now. Also did a form reset after successful submission.
+
+=== Next, car-price form
+
+In car-price-form.component.html, you can add <app-home></app-home> to show the home page in car-price-form also.
+
+Then, car-price-form.component.ts -> implements onInit & the corresponding method (initially blank)
+Then add the onSubmit() method (blank for now)
+Create a form group: carPriceForm: FormGroup = new FormGroup({})
+Create constructors or instances of some classes that will be needed in the ts file:
+constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private carPriceService: CarPriceServiceService
+ ) {}
+
+Go back to car-price-form.component.html. Create a form using the form group created in ts file.
+Create all the labels / texts / buttons.
+
+Go back to car-price-form.component.ts and put in the code for ngOnInit using form group to group the columns and using Validators.
+Put in a simple alert message in the OnSubmit method.
+Verify the form is working as expected. 
+
+Now focus on the car-price-service.service.ts. Put in the code for addCar using the API url. 
+Before this, you will need to update the car-price-model.ts with the message structure.
+Then update the OnSubmit() method in car-price-form.component.ts to invoke the addCar function in the service.
+I was not able to get an alert message after successul form submission. 
+In the form page i.e. chrome, i did Ctrl+Shift+J to open console and saw an error related to CORS. So i went back to API, enabled CORS, redeployed API and then tried submitting.
+alert worked now. Also did a form reset after successful submission.
+
+===============
+
+Now time to host the web app publicly.
+
+In AWS Console, Create an S3 bucket - mlapp-vinod. Uncheck "Block Public Access". Edit the Bucket Policy and put in: 
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicRead",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::mlapp-vinod/*"
+        }
+    ]
+}
+
+Enable static web hosting.
+
+Go back to your local machine where the angular app was built. Execute ng-build:
+C:\Vinod\Angular2024\ml-app>ng build
+
+dist folder should get created in C:\Vinod\Angular2024\ml-app
+
+Copy the files under "dist" into mlapp-vinod S3 bucket.
+
+Copy the bucket website endpoint into the browser and verify the behaviour of the app is the same as during local testing.
+
+============
+
+For the rest of the setup, refer C:\Vinod\AWSDataEngineering\15. AWS Solutions Architect Professional\15. Hands-on Exercises\10. Secure multi-tier architecture - SQS for decoupling - ML model (Good for Interview) - DR & with Frontend.
+
+14. CloudFront on S3.txt is on top of the above S3 bucket.
+
+=============
+
+We have completed the POST part. Now lets do the GET ALL part.
+
+ng generate component diamond-price-list --module=mlforms
+
+In app-routing.module.ts, add the new route: {path: "diamond-list", component: DiamondPriceListComponent}
+
+In the landing page home.component.html, use the above path and add a button
+
+Check the routing is working as expected from home page.
+
+In diamond-price-list.component.html, add <app-home></app-home> & verify.
+
+Now lets focus on diamond-price-list.component.ts -> implements OnInit & the corresponding method (blank for now)
+No need of OnSubmit() method here
+Need an array of diamond entries
+Create constructors or instances of some classes that will be needed in the ts file:
+constructor(
+    private diamondPriceService: DiamondPriceServiceService
+ ) {}
+
+Now focus on the diamond-price-service.service.ts. 
+Put in the code for getDiamond and getDiamonds using the API url. 
+Go back to diamond-price-list.component.ts and complete the ngOnInit using the getDiamonds method.
+Go back to diamond-price-list.component.html and make the required changes (ngFor & {{}}) to display the values.
+
+In AWS Console, create a lambda function mlapps-diamond-price-get-fromDB-fn that returns an array of diamond objects. Can be hardcoded initially. Test lambda.
+In API Gateway, create a GET method under "mlapps-diamond-price-to-sqs" resource that invokes the above function. 
+Enable CORS and in the Integration Response, extract the body using $input.json('$.body').
+Test API Gateway + lambda. Deploy API. Make sure the URL used in diamond-price-service.service.ts is correct.
+Verify the list is getting displayed correctly on the front-end.
+
+Modify the lambda function to read from MySQL DB. Test Lambda.
+Test API gateway + Lambda.
+Verify Angular Frontend + API gateway + Lambda.
+
+==============
+
+We saw the GET ALL part above. Now let us see the GET part for 1 record i.e for 1 run_id.
+
+I created the function - mlapps-diamond-price-get-one-from-DB-fn - with just print(event) first.
+
+Then in API Gateway, under the mlapps-diamond-price-to-sqs resource, i created a {run_id} resource and a GET method under this run_id resource.
+Test in lambda logs by passing a value 1 for run_id in API gateway - see what is printed for event.
+In the Integration Request section, add the mapping template: 
+{
+  "run_id" : "$input.params("run_id")"
+}
+Test again in lambda logs if run_id is captured.
+Now, take the code in mlapps-diamond-price-get-fromDB-fn as the baseline and modify as required to get 1 record alone.
+Note the usage of try-except block to handle cases where an invalid run_id is passed.
+Test lambda first, then API Gateway + Lambda.
+Once this is ready, we can move to the Angular part.
+
+ng generate component diamond-attributes-retrieve --module=mlforms
+
+In app-routing.module.ts, add the new route: {path: "diamond-retrieve", component: DiamondAttributesRetrieveComponent}
+
+In the landing page home.component.html, use the above path and add a button.
+
+Check the routing is working as expected from home page.
+
+In diamond-attributes-retrieve.component.html, add <app-home></app-home> & verify.
+
+Then, diamond-attributes-retrieve.component.ts -> implements onInit & the corresponding method (initially blank)
+Then add the onSubmit() method (blank for now)
+Create a form group: diamondAttrForm: FormGroup = new FormGroup({})
+Create constructors or instances of some classes that will be needed in the ts file:
+constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private carPriceService: CarPriceServiceService
+ ) {}
+
+Go back to diamond-attributes-retrieve.component.html. Create a form using the form group created in ts file.
+Create the label / text / button.
+
+Go back to diamond-attributes-retrieve.component.ts and put in the code for ngOnInit using form group to group the columns and using Validators.
+Put in a simple alert message in the OnSubmit method.
+Verify the form is working as expected. 
+Enhance the OnSubmit method to invoke the "getDiamond" function from the service.
+Assign the returned value to object which is already initialized with default values.
+
+Enhance diamond-attributes-retrieve.component.html to display teh retrieved values in tabular format.
+-- Add an *ngIf block so that the table is not displayed at the time of initialization itself when there is no data or when no data exists for given run id.
+This if block is not working as expected now.
+"No record available" is shown at time of initialization itself and when there is actually no record for given run id, empty table is shown instead of "No record available" ---
+In diamond-attributes-retrieve.component.ts, reset() function is deliberately commented out so the user knows the run id for the attributes displayed.

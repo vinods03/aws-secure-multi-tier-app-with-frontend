@@ -1,0 +1,90 @@
+In 1a. we invoked the model hosted on k8s cluster from an EC2 instance.
+Sample command used:
+
+import requests
+
+url = 'https://mlapps.tekedify.net/diamond_price_predict'
+
+r = requests.post(url, json = {
+    "carat": 0.31,
+    "cut": "Good",
+    "color": "J",
+    "clarity": "SI2",
+    "depth": 63.3,
+    "table": 58.0,
+    "x": 4.34,
+    "y": 4.35,
+    "z": 2.75
+})
+
+print(r)
+
+print(r.text)
+
+=========================
+
+Refer 15. Create lambda function to get data from DB.txt for an easier way to add layer in lambda
+
+1. Now, we want to invoke this from lambda. 
+So that, in the next step, we can invoke the lambda from an API Gateway / SQS and in the subsequent step, we can pass our input to API Gateway from a static website (or through an utility like Postman till we create a frontend). A lambda function - mlapps - is created for this.
+
+2. I put the above code as it is in the lambda function mlapps, created a Test event in lambda to test the code and i got the error "module requests not found". 
+The solution for this is to package this library as part of the lambda code. Follow the below steps to achieve this.
+
+2a. Open CloudShell
+$ python -V
+Python 3.7.16
+
+2b. Then use wget to download the installer in CloudShell:
+$ wget https://www.python.org/ftp/python/3.9.16/Python-3.9.16.tgz
+
+2c. Then extract the file:
+$ tar xvf Python-3.9.16.tgz
+
+2d. Next, you’ll want to create a virtual environment of this Python version, to use for downloading and packaging the requests library:
+$ mkdir packaging
+$ cd packaging
+$ python3.9 -m venv layer_package
+$ source layer_package/bin/activate
+(layer_package) $ pip install requests
+(layer_package) $ deactivate
+
+2e. You’ll noticed a few dependent packages were also installed by pip: idna, urllib3, and others. Next, you’ll want to compress these packaged libraries into a .zip:
+$ mkdir python
+$ cp -r layer_package/lib/python3.9/site-packages/* python/
+$ zip -r lambda-layer-requests-python3.9-x86_64.zip python
+
+
+2f. Create an Amazon S3 bucket to store your zipped requests library - lambda-packages-vinod
+Copy from Cloudshell to S3: 
+$ aws s3 cp lambda-layer-requests-python3.9-x86_64.zip s3://aws-lambda-layers-bborofka
+upload: ./lambda-layer-requests-python3.9-x86_64.zip to s3://aws-lambda-layers-bborofka/lambda-layer-requests-python3.9-x86_64.zip
+Navigate to your S3 bucket in the AWS console, select the .zip object and click Copy URL
+
+2g. Now, create a lambda layer:
+Go to the Lambda console and open Layers (left), click Create layer. 
+Create the layer with the name Requests, the S3 link URL you copied, x86_64 checked and select the Python 3.9 Compatible runtimes you built the package with.
+
+2h. Add the layer to your Python function - mlapps - using the "Custom Layers" option.
+Finally, your layer is ready! Go ahead and navigate to the mlapps function in the Lambda console. 
+Verify the Runtime settings are configured for Python 3.9 and x86_64.
+Add "Custom" layer and use the layer created in previous step.
+
+2i. Now try the same lambda code used before and verify cloudwatch logs:
+It should run successfully and print the values.
+
+import requests
+url = 'https://mlapps.tekedify.net/diamond_price_predict'
+r = requests.post(url, json = {
+    "carat": 0.31,
+    "cut": "Good",
+    "color": "J",
+    "clarity": "SI2",
+    "depth": 63.3,
+    "table": 58.0,
+    "x": 4.34,
+    "y": 4.35,
+    "z": 2.75
+})
+print(r)
+print(r.text)

@@ -1,0 +1,1 @@
+Create 2 SQS queues mlapps-car-price-queue and mlapps-diamond-price-queue with required visbility timeout (I used 15 mins)

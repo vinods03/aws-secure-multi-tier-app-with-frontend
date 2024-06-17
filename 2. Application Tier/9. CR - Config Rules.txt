@@ -1,0 +1,15 @@
+## Configure rules in AWS Config
+
+1. First setup AWS Config - Settings - Enable recording by providing / creating an S3 bucket for logging, providing an SNS topic name, creating / using an appropriate IAM role etc.
+
+2. Multiple rules created in AWS Config to ensure any deviation is detected. Auto-remediation can be enabled if needed.
+
+alb-http-drop-invalid-header-enabled
+alb-http-to-https-redirection-check
+api-gwv2-access-logs-enabled
+api-gw-ssl-enabled
+lambda-concurrency-check
+route53-query-logging-enabled
+s3-bucket-server-side-encryption-enabled
+s3-bucket-level-public-access-prohibited
+db-instance-backup-enabled	

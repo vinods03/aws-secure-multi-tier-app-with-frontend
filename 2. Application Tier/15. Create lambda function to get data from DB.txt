@@ -1,0 +1,50 @@
+Create the lambda function - mlapps-diamond-price-get-from-DB-fn. Can return hardcoded values initially. Then add the RDS MySQL part.
+
+Got an error - cannot import module pymysql. We need to add a pymysql layer in lambda function. Follow the below steps for the same.
+
+===================
+
+Launch an Amazon linux EC2 instance
+
+sudo yum install pip
+
+pip install -t ./python pymysql
+
+zip -r pymysql.zip python
+
+aws s3 mv pymysql.zip s3://lambda-packages-vinod
+
+Then, in Lambda console, Layers -> create layer using the S3 url and also select the compatible architecture / runtime
+
+Then, go inside the required lambda function - mlapps-diamond-price-get-from-DB-fn - and add the layer created above.
+
+===================
+
+Now test lambda first, then API gateway + Lambda & finally Angular Frontend + API gateway + Lambda.
+
+Use below SQLs in DB for testing, instead of creating the whole application and POSTING the entries into the DB.
+
+create database ml_db;
+
+use ml_db;
+
+create table diamond_price_app
+(
+ run_id int,
+ carat decimal(13,6),
+ cut varchar(20),
+ color varchar(20),
+ clarity varchar(20),
+ depth decimal(13,6),
+ tbl decimal(13,6),
+ x decimal(13,6),
+ y decimal(13,6),
+ z decimal(13,6),
+ diamond_price decimal(13,6)
+);
+
+insert into diamond_price_app values (1,10.5,'Good','J','SI2',45.5,65.5,1.0,2.2,3.8,1500.9);
+insert into diamond_price_app values (2,23.5,'Ideal','K','SI345',133.5,117.1,11.0,33.2,17.8,3600.9);
+
+commit;
+

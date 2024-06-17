@@ -1,0 +1,11 @@
+## Setup Inspector
+
+1. Go to Amazon Inspector and specify your account ID for delegated administrator account and activate the trial.
+
+2. Check the vulnerability findings for the EC2 instances, lambda functions and ECR repositories.
+
+I could find package vulnerabilties like "CVE-2023-6597 - python3-libs, python3", "CVE-2024-26584 - kernel-headers, kernel-devel and 1 more"
+&
+network vulnerabilties like "Port 22 is reachable from an Internet Gateway - TCP" in the EC2 instances.
+
+I could find package vulnerabilties like "CVE-2022-40897 - setuptools", "CVE-2023-5752 - pip" in the lambda functions, mainly in the "Requests" layer.

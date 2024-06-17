@@ -1,0 +1,15 @@
+We saw the GET ALL part in the prior section.
+Now let us see the GET part for 1 record i.e for 1 run_id.
+
+I created the function - mlapps-diamond-price-get-one-from-DB-fn - with just print(event) first.
+
+Then in API Gateway, under the mlapps-diamond-price-to-sqs resource, i created a {run_id} resource and a GET method under this run_id resource.
+Test in lambda logs by passing a value 1 for run_id in API gateway - see what is printed for event.
+In the Integration Request section, add the mapping template: 
+{
+  "run_id" : "$input.params("run_id")"
+}
+Test again in lambda logs if run_id is captured.
+Now, take the code in mlapps-diamond-price-get-fromDB-fn as the baseline and modify as required to get 1 record alone.
+Note the usage of try-except block to handle cases where an invalid run_id is passed.
+Test lambda first, then API Gateway + Lambda.

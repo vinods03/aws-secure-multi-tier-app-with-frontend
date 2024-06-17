@@ -1,0 +1,32 @@
+<app-home></app-home>
+
+<h3 class="mt-5 mb-3">Diamond List</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>carat:</th>
+            <th>cut:</th>
+            <th>color:</th>
+            <th>clarity:</th>
+            <th>depth:</th>
+            <th>table:</th>
+            <th>x:</th>
+            <th>y:</th>
+            <th>z:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let diamond of diamondEntries">
+            <td>{{diamond.carat}}</td>
+            <td>{{diamond.cut}}</td>
+            <td>{{diamond.color}}</td>
+            <td>{{diamond.clarity}}</td>
+            <td>{{diamond.depth}}</td>
+            <td>{{diamond.table}}</td>
+            <td>{{diamond.x}}</td>
+            <td>{{diamond.y}}</td>
+            <td>{{diamond.z}}</td>
+        </tr>
+    </tbody>
+</table>

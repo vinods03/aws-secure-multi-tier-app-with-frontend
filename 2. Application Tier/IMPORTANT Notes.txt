@@ -1,0 +1,9 @@
+I was getting the 504: Endpoint request timed out error frequently without SQS queues between API Gateway and Lambda.
+The max API timeout is 29 seconds and if our lambda takes more than that, the request is gonna timeout.
+Remember, our code uses model to predict and then make an entry in RDS, which could take more than 29 seconds.
+So passing on the messages to SQS queue will not take more than 29 seconds and also lambda can read from the SQS queue to ensure no messages are lost.
+
+Note that the Certificate is tied to Route 53 domain and Route 53 domain (A record) is tied to ALB.
+If you delete existing cerificate and procure a new certificate for your domain, make sure you update all the 3 "ingress resources" in kube-manifests to point to thjis new certificate.
+Else your ALB will be tied to an old certificate that no longer exists and the link Certificate - Route 53 A record - ALB is broken.
+Your app will not work.

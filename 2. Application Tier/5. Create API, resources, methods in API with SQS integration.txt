@@ -1,0 +1,170 @@
+1. Go to API Gateway. Create a REST API mlapps-to-SQS. Create 2 resources at the root level mlapps-diamond-price-to-sqs and mlapps-car-price-to-sqs.
+
+2. Under each resource, create POST method 
+
+For Integration type, choose AWS service.
+
+For AWS Region, choose the Region where you created your SQS queue.
+
+For AWS service, choose Simple Queue Service (SQS).
+
+For HTTP method, choose POST.
+
+For Action type, choose Use path override.
+
+For Path override, enter <AWS account ID>/<name of SQS queue>
+
+For Execution role, paste the ARN of the role that you created earlier.
+
+Choose Create method.
+
+------- In the Integration Request section:
+
+Expand the HTTP headers section, and then choose the Add request header parameter.
+
+For Name, specify Content-Type.
+
+For Mapped from, enter 'application/x-www-form-urlencoded'. Make sure to include the single quotation marks.
+
+Select the Caching checkbox.
+
+Expand the Mapping templates section.
+
+Choose Add mapping template.
+
+For Content type, enter application/json.
+
+For Template body, paste this code:
+
+Action=SendMessage&MessageBody=$input.body
+
+===================== The generic steps listed above are implemented below for our app =================================================
+
+2a. Under the API resource mlapps-car-price-to-sqs, create POST method
+
+For Integration type, choose AWS service.
+
+For AWS Region, choose us-east-1.
+
+For AWS service, choose Simple Queue Service (SQS).
+
+For HTTP method, choose POST.
+
+For Action type, choose Use path override.
+
+For Path override, enter XXXXXXXXXXXX/mlapps-car-price-queue
+
+For Execution role, paste the ARN of the role that you created earlier - arn:aws:iam::XXXXXXXXXXXX:role/APIrole
+
+Choose Create method.
+
+------- In the Integration Request section:
+
+Expand the HTTP headers section, and then choose the Add request header parameter.
+
+For Name, specify Content-Type.
+
+For Mapped from, enter 'application/x-www-form-urlencoded'. Make sure to include the single quotation marks.
+
+Select the Caching checkbox.
+
+Expand the Mapping templates section.
+
+Choose Add mapping template.
+
+For Content type, enter application/json.
+
+For Template body, paste this code:
+
+Action=SendMessage&MessageBody=$input.body
+
+Test using the below message in car price API resource:
+
+{
+    "carAttributes": {
+    "symboling": 2,
+    "normalized-losses": 164,
+    "wheel-base": 99.8,
+    "make": "audi",
+    "fuel-type": "gas",
+    "aspiration": "std",
+    "num-of-doors": "four",
+    "body-style": "sedan",
+    "drive-wheels": "fwd",
+    "engine-location": "front",
+    "length": 176.60,
+    "width": 66.20,
+    "height": 54.30,
+    "curb-weight": 2337,
+    "engine-type": "ohc",
+    "num-of-cylinders": "four",
+    "engine-size": 109, 
+    "fuel-system": "mpfi",
+    "bore": 3.19,
+    "stroke": 3.40,
+    "compression-ratio": 10,
+    "horsepower": 102,
+    "peak-rpm": 5500,
+    "city-mpg": 24,
+    "highway-mpg": 30
+    }
+}
+
+The message should be available in car price queue.
+
+=====================
+
+2b. Under the API resource mlapps-diamond-price-to-sqs, create POST method
+
+For Integration type, choose AWS service.
+
+For AWS Region, choose us-east-1.
+
+For AWS service, choose Simple Queue Service (SQS).
+
+For HTTP method, choose POST.
+
+For Action type, choose Use path override.
+
+For Path override, enter XXXXXXXXXXXX/mlapps-diamond-price-queue
+
+For Execution role, paste the ARN of the role that you created earlier - arn:aws:iam::XXXXXXXXXXXX:role/APIrole
+
+Choose Create method.
+
+------- In the Integration Request section:
+
+Expand the HTTP headers section, and then choose the Add request header parameter.
+
+For Name, specify Content-Type.
+
+For Mapped from, enter 'application/x-www-form-urlencoded'. Make sure to include the single quotation marks.
+
+Select the Caching checkbox.
+
+Expand the Mapping templates section.
+
+Choose Add mapping template.
+
+For Content type, enter application/json.
+
+For Template body, paste this code:
+
+Action=SendMessage&MessageBody=$input.body
+
+Test using the below message in diamond price API resource:
+
+{
+	"carat": 0.31,
+        "cut": "Good",
+        "color": "J",
+        "clarity": "SI2",
+        "depth": 63.3,
+        "table": 58.0,
+        "x": 4.34,
+        "y": 4.35,
+        "z": 2.75
+
+}
+
+The message should be available in diamond price queue.

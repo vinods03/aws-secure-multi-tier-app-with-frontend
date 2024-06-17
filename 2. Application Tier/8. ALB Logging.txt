@@ -1,0 +1,28 @@
+## Enable logging for the ALB
+
+1. Create an S3 bucket for logging
+
+2. Add the following bucket policy (modify ONLY the BUCKET-NAME and YOUR-ACCOUNT-ID fields)
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::127311923021:root"
+      },
+      "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::secure-webapp-logging-bucket/AWSLogs/XXXXXXXXXXXX/*"
+    }
+  ]
+}
+
+
+3. Edit load balancer "Attributes"
+
+4. Enable access logs, connection logs
+
+5. Select the S3 bucket and save
+
+As requuests are being put in, ensure logs are getting created.

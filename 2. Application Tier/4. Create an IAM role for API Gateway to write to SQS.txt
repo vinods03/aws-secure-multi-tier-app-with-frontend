@@ -1,0 +1,19 @@
+Open the IAM console at https://console.aws.amazon.com/iam/.
+
+In the navigation pane, choose Roles, Create role.
+
+For Trusted entity type, choose AWS service.
+
+For Use case, choose API Gateway from the dropdown list, and then choose Next, Next.
+
+For Role name, enter APIrole and an optional description, and then choose Create role.
+
+In the Roles pane, search for APIrole and select its checkbox.
+
+In the Permissions policies section, choose Add permissions, Attach policies.
+
+Search for AmazonSQSFullAccess and select it.
+
+Choose Add permissions.
+
+In the Summary section of APIrole, note down the Amazon Resource Number (ARN). 

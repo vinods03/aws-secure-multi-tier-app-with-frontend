@@ -1,0 +1,80 @@
+1. For the mlapps-car-price-post-fromSQS-fn, I decided the user-input structure at API level should be:
+
+{
+    "symboling": 2,
+    "normalized-losses": 164,
+    "wheel-base": 99.8,
+    "make": "audi",
+    "fuel-type": "gas",
+    "aspiration": "std",
+    "num-of-doors": "four",
+    "body-style": "sedan",
+    "drive-wheels": "fwd",
+    "engine-location": "front",
+    "length": 176.60,
+    "width": 66.20,
+    "height": 54.30,
+    "curb-weight": 2337,
+    "engine-type": "ohc",
+    "num-of-cylinders": "four",
+    "engine-size": 109, 
+    "fuel-system": "mpfi",
+    "bore": 3.19,
+    "stroke": 3.40,
+    "compression-ratio": 10,
+    "horsepower": 102,
+    "peak-rpm": 5500,
+    "city-mpg": 24,
+    "highway-mpg": 30
+}
+
+2. So in the "Integration Request" section of API, previously I had used the below template to extract the structre required by lambda:
+
+{
+   "symboling" : $input.json('$.carAttributes.symboling'),
+   "normalized-losses" : $input.json('$.carAttributes.normalized-losses'),
+   "wheel-base" : $input.json('$.carAttributes.wheel-base'),
+   "make" : $input.json('$.carAttributes.make'),
+   "fuel-type" : $input.json('$.carAttributes.fuel-type'),
+   "aspiration" : $input.json('$.carAttributes.aspiration'),
+   "num-of-doors" : $input.json('$.carAttributes.num-of-doors'),
+   "body-style" : $input.json('$.carAttributes.body-style'),
+   "drive-wheels" : $input.json('$.carAttributes.drive-wheels'),
+   "engine-location" : $input.json('$.carAttributes.engine-location'),
+   "length" : $input.json('$.carAttributes.length'),
+   "width" : $input.json('$.carAttributes.width'),
+   "height" : $input.json('$.carAttributes.height'),
+   "curb-weight" : $input.json('$.carAttributes.curb-weight'),
+   "engine-type" : $input.json('$.carAttributes.engine-type'),
+   "num-of-cylinders" : $input.json('$.carAttributes.num-of-cylinders'),
+   "engine-size" : $input.json('$.carAttributes.engine-size'),
+   "fuel-system" : $input.json('$.carAttributes.fuel-system'),
+   "bore" : $input.json('$.carAttributes.bore'),
+   "stroke" : $input.json('$.carAttributes.stroke'),
+   "compression-ratio" : $input.json('$.carAttributes.compression-ratio'),
+   "horsepower" : $input.json('$.carAttributes.horsepower'),
+   "peak-rpm" : $input.json('$.carAttributes.peak-rpm'),
+   "city-mpg" : $input.json('$.carAttributes.city-mpg'),
+   "highway-mpg" : $input.json('$.carAttributes.highway-mpg')
+}
+
+But now i have used: Action=SendMessage&MessageBody=$input.body to send message to SQS queue.
+So the extraction needs to happen in lambda.
+
+3. Add an SQS trigger to lambda function: Change the IAM role of the lambda accordingly.
+
+4. Added a print(event) in lambda and tested the method. The attributes were getting extracted. Now, further change the lambda function to remove hardcoded values and use the above values passed from SQS. Test by passing different values in API and checking if the lambda function is returning different results.
+
+5. Input Validation using a model in the "Method Request" section of the API not done here. Refer the diamond-price resource / POST method for reference.
+
+NOTE: We are not using the Authorization and API Key features here. 
+Refer C:\Vinod\AWSDataEngineering\15. AWS Solutions Architect Professional\15. Hands-on Exercises\3. Serverless App for these features.
+
+6. Previosuly, "Integration Response" we had used the below template:
+
+{
+   "car-price-prediction" : $input.json('$.body')
+}
+
+But now, since the API integration is with SQS and not lambda, the return value of lambda will not be processed here. 
+So, we will leave this blank here.

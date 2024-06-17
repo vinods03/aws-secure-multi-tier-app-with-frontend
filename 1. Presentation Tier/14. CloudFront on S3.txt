@@ -1,0 +1,47 @@
+Once the Angular Front-end is created as detailed in C:\Vinod\Angular2024\ml-app as per notes in C:\Vinod\Angular2024\9. ml app.txt, come here:
+
+CloudFront distribution (CF) on top of S3:
+
+Once S3 bucket website has been setup as detailed in C:\Vinod\Angular2024\9. ml app.txt, the next step is to setup a Cloudfront distribution on top of the S3 bucket.
+
+Provide the S3 website endpoint as the Origin name, Header can be added later if needed (done for ALB, not sure if useful in S3), set the viewer protocol policy to "redirect HTTP to HTTPS", Caching policy can be disabled for now, WAF not needed for now, associate the certificate procuded in ACM with this CF distribution, logging on the S3 bucket can be turned on if needed.
+
+Copy the distribution domain name into the browser and verify web app functionality.
+
+====================================================
+
+WAF on CF:
+
+In AWS Console, go to WAF. Create Web ACL. Choose resource type for the web acl as CF distribution and select your CF distribution created above.
+Add my own rules and rule groups - Rule builder - rate based rule - set a rate limit of 100 in a 5-min window and set the Action as Block.
+
+In the above ACL, I added more free AWS managed rule groups - AWS-AWSManagedRulesAnonymousIpList, AWS-AWSManagedRulesKnownBadInputsRuleSet, AWS-AWSManagedRulesAdminProtectionRuleSet - with action as Block again, to block known bad traffic.
+
+Verify in CloudFront, this ACL is reflecting under Security.
+
+Now, verify if the ACL is working as expected:
+
+Launch an EC2 instance and try the command:
+for i in {1..140}; do curl https://duxgpagz5kk8w.cloudfront.net; done
+
+You should see message like this:
+Request blocked.
+We can't connect to the server for this app or website at this time. There might be too much traffic or a configuration error. Try again later, or contact the app or website owner.
+
+====================================================
+
+Route 53 in front of CF:
+
+Edit the CF distibution, provide web-mlapps.tekedify.net as the "Alternate domain names".
+
+Now go to Route 53 and in the tekedify.net Hosted Zone, add A record to the CF distribution created above. 
+If it does not get listed automatically, copy the "Distribution domain name" of the CF distribution (duxgpagz5kk8w.cloudfront.net) manually into the Route 53 "Value/Route Traffic To" section.
+
+Now, verify if the ACL defined on CF is working as expected, when invoked via Route 53:
+
+Launch an EC2 instance and try the command:
+for i in {1..140}; do curl https://web-mlapps.tekedify.net/; done
+
+You should still see message like this:
+Request blocked.
+We can't connect to the server for this app or website at this time. There might be too much traffic or a configuration error. Try again later, or contact the app or website owner.

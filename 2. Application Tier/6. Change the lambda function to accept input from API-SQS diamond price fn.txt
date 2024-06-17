@@ -1,0 +1,59 @@
+1. For the mlapps-diamond-price-post-fromSQS-fn, I decided the user-input structure at API level (considering the form data in Angular Frontend) should be:
+
+{
+        "carat": 0.31,
+        "cut": "Good",
+        "color": "J",
+        "clarity": "SI2",
+        "depth": 63.3,
+        "table": 58.0,
+        "x": 4.34,
+        "y": 4.35,
+        "z": 2.75
+
+}
+
+
+2. In the "Integration Request" section of API, i have used: Action=SendMessage&MessageBody=$input.body to send message to SQS queue.
+The extraction needs to happen in lambda.
+
+3. Add an SQS trigger to lambda function: Change the IAM role of the lambda accordingly.
+
+4. Added a print(event) in lambda and tested the method. The attributes were getting extracted. Now, further change the lambda function to remove hardcoded values and use the above values passed from SQS. Test by passing different values in API and checking if the lambda function is returning different results.
+
+5. Now we will modify the model in the "Method Request" section of API: mlapps - mlapps-diamond-price-to-sqs - POST, using below template, to take care of the new structure and to ensure incorrect input values are caught at the API level itself: Note how, apart from column names and data types, we validate the values also using enum and minimum/maximum.
+First we create the model in the Models section of the API and then use it in the Method Request section of the POST method.
+We also change "request Validator" to "Validate body".
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "DiamondPricePostModel",
+  "type": "object",
+  "properties": {
+      "carat": {"type": "number"},
+      "cut": {"type": "string", "enum": ["Ideal", "Premium", "Good", "Very Good"]},
+      "color": {"type": "string"},
+      "clarity": {"type": "string"},
+      "depth": {"type": "number", "minimum": 40.0, "maximum": 80.0},
+      "table": {"type": "number"},
+      "x": {"type": "number"},
+      "y": {"type": "number"},
+      "z": {"type": "number"}
+           },
+        "required": ["carat", "cut", "color", "clarity", "depth", "table", "x", "y", "z"]
+}
+
+Verify invalid inputs are being detected.
+
+NOTE: We are not using the Authorization and API Key features here. 
+Refer C:\Vinod\AWSDataEngineering\15. AWS Solutions Architect Professional\15. Hands-on Exercises\3. Serverless App for these features.
+
+
+6. Previosuly, "Integration Response" we had used the below template:
+
+{
+   "diamond-price-prediction" : $input.json('$.body')
+}
+
+But now, since the API integration is with SQS and not lambda, the return value of lambda will not be processed here. 
+So, we will leave this blank here.

@@ -1,0 +1,92 @@
+<app-home></app-home>
+
+<form [formGroup]="diamondPriceForm" (ngSubmit)="onSubmit()">
+
+    <!-- "carat": 0.31,
+    "cut": "Good",
+    "color": "J",
+    "clarity": "SI2",
+    "depth": 63.3,
+    "table": 58.0,
+    "x": 4.34,
+    "y": 4.35,
+    "z": 2.75 -->
+
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">carat:</label>
+            <input class="form-control" type="number" formControlName="carat">
+            <small class="text-danger" *ngIf="diamondPriceForm.get('carat')?.invalid && diamondPriceForm.get('carat')?.touched">
+                Carat is needed
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">cut:</label>
+            <input class="form-control" type="text" formControlName="cut">
+            <small class="text-danger" *ngIf="diamondPriceForm.get('cut')?.invalid && diamondPriceForm.get('cut')?.touched">
+                Please enter a valid value for cut. The allowed values are Good, Very Good, Ideal, Premium
+            </small>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">color:</label>
+            <input class="form-control" type="text" formControlName="color">
+            <small class="text-danger" *ngIf="diamondPriceForm.get('color')?.invalid && diamondPriceForm.get('color')?.touched">
+                Color is needed
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">clarity:</label>
+            <input class="form-control" type="text" formControlName="clarity">
+            <small class="text-danger" *ngIf="diamondPriceForm.get('clarity')?.invalid && diamondPriceForm.get('clarity')?.touched">
+                Clarity is needed
+            </small>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">depth:</label>
+            <input class="form-control" type="number" formControlName="depth">
+            <small class="text-danger" *ngIf="diamondPriceForm.get('depth')?.invalid && diamondPriceForm.get('depth')?.touched">
+                Please enter a valid value for depth: min value is 40 and max is 80
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">table:</label>
+            <input class="form-control" type="number" formControlName="table">
+            <small class="text-danger" *ngIf="diamondPriceForm.get('table')?.invalid && diamondPriceForm.get('table')?.touched">
+                Table is needed
+            </small>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">x:</label>
+            <input class="form-control" type="number" formControlName="x">
+            <small class="text-danger" *ngIf="diamondPriceForm.get('x')?.invalid && diamondPriceForm.get('x')?.touched">
+                x is needed
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">y:</label>
+            <input class="form-control" type="number" formControlName="y">
+            <small class="text-danger" *ngIf="diamondPriceForm.get('y')?.invalid && diamondPriceForm.get('y')?.touched">
+                y is needed
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">z:</label>
+            <input class="form-control" type="number" formControlName="z">
+            <small class="text-danger" *ngIf="diamondPriceForm.get('z')?.invalid && diamondPriceForm.get('z')?.touched">
+                z is needed
+            </small>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit" [disabled]="diamondPriceForm.invalid">Submit</button>
+    
+</form>

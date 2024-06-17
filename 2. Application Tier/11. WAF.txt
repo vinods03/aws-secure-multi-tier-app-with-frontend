@@ -1,0 +1,31 @@
+In Console, Go to WAF & Shield.
+
+## Create an AWS WAF WebACL
+
+1. Create a WebACL
+
+Name: MyWebACL
+Resource type: Regional Resources (ALBs, REST APIs etc)
+Associated resources: select the ALB
+
+2. Create own rule for the WebACL
+
+Name: Rate100
+Type: Rate-based rule
+Rate limit: 100
+Action: Block
+
+3. Use the following command on CloudShell to trip the WAF rule (modify the domain name)
+for i in {1..140}; do curl https://mlapps.tekedify.net; done
+This did not work me in Cloudshell. I provisioned an EC2 instance and there i could simulate the error.
+Initially i got the "health check completed succssfully message" but after rate exceeded, i got "403 Forbidden error".
+
+There are a lot of managed rules like:
+Account takeover prevention
+Account creation fraud prevention
+Bot Control
+Known bad inputs
+Anonymous IP list etc.
+
+Ideally this step is not needed as user will have access only to the Frontend and no direct access to ALB.
+

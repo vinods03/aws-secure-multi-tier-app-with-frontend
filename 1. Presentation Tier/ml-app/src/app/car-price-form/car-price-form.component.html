@@ -1,0 +1,197 @@
+<app-home></app-home>
+
+<form [formGroup]="carPriceForm" (ngSubmit)="onSubmit()">
+
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">symboling:</label>
+            <input class="form-control" type="number" formControlName="symboling">
+            <small class="text-danger" *ngIf="carPriceForm.get('symboling')?.invalid && carPriceForm.get('symboling')?.touched">
+                Please enter a valid value for symboling
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">normalized-losses:</label>
+            <input class="form-control" type="number" formControlName="normalized-losses">
+            <small class="text-danger" *ngIf="carPriceForm.get('normalized-losses')?.invalid && carPriceForm.get('normalized-losses')?.touched">
+                Please enter a valid value for normalized losses
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">wheel-base:</label>
+            <input class="form-control" type="number" formControlName="wheel-base">
+            <small class="text-danger" *ngIf="carPriceForm.get('wheel-base')?.invalid && carPriceForm.get('wheel-base')?.touched">
+                Please enter a valid value for wheel base
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">make:</label>
+            <input class="form-control" type="text" formControlName="make">
+            <small class="text-danger" *ngIf="carPriceForm.get('make')?.invalid && carPriceForm.get('make')?.touched">
+                Please enter a valid value for make
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">fuel-type:</label>
+            <input class="form-control" type="text" formControlName="fuel-type">
+            <small class="text-danger" *ngIf="carPriceForm.get('fuel-type')?.invalid && carPriceForm.get('fuel-type')?.touched">
+                Please enter a valid value for fuel type
+            </small>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">aspiration:</label>
+            <input class="form-control" type="text" formControlName="aspiration">
+            <small class="text-danger" *ngIf="carPriceForm.get('aspiration')?.invalid && carPriceForm.get('aspiration')?.touched">
+                Please enter a valid value for aspiration
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">num-of-doors:</label>
+            <input class="form-control" type="text" formControlName="num-of-doors">
+            <small class="text-danger" *ngIf="carPriceForm.get('num-of-doors')?.invalid && carPriceForm.get('num-of-doors')?.touched">
+                Please enter a valid value for num-of-doors
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">body-style:</label>
+            <input class="form-control" type="text" formControlName="body-style">
+            <small class="text-danger" *ngIf="carPriceForm.get('body-style')?.invalid && carPriceForm.get('body-style')?.touched">
+                Please enter a valid value for body-style
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">drive-wheels:</label>
+            <input class="form-control" type="text" formControlName="drive-wheels">
+            <small class="text-danger" *ngIf="carPriceForm.get('drive-wheels')?.invalid && carPriceForm.get('drive-wheels')?.touched">
+                Please enter a valid value for drive-wheels
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">engine-location:</label>
+            <input class="form-control" type="text" formControlName="engine-location">
+            <small class="text-danger" *ngIf="carPriceForm.get('engine-location')?.invalid && carPriceForm.get('engine-location')?.touched">
+                Please enter a valid value for engine-location
+            </small>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">length:</label>
+            <input class="form-control" type="number" formControlName="length">
+            <small class="text-danger" *ngIf="carPriceForm.get('length')?.invalid && carPriceForm.get('length')?.touched">
+                Please enter a valid value for length
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">width:</label>
+            <input class="form-control" type="number" formControlName="width">
+            <small class="text-danger" *ngIf="carPriceForm.get('width')?.invalid && carPriceForm.get('width')?.touched">
+                Please enter a valid value for width
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">height:</label>
+            <input class="form-control" type="number" formControlName="height">
+            <small class="text-danger" *ngIf="carPriceForm.get('height')?.invalid && carPriceForm.get('height')?.touched">
+                Please enter a valid value for height
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">curb-weight:</label>
+            <input class="form-control" type="number" formControlName="curb-weight">
+            <small class="text-danger" *ngIf="carPriceForm.get('curb-weight')?.invalid && carPriceForm.get('curb-weight')?.touched">
+                Please enter a valid value for curb-weight
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">engine-type:</label>
+            <input class="form-control" type="text" formControlName="engine-type">
+            <small class="text-danger" *ngIf="carPriceForm.get('engine-type')?.invalid && carPriceForm.get('engine-type')?.touched">
+                Please enter a valid value for engine-type
+            </small>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">num-of-cylinders:</label>
+            <input class="form-control" type="text" formControlName="num-of-cylinders">
+            <small class="text-danger" *ngIf="carPriceForm.get('num-of-cylinders')?.invalid && carPriceForm.get('num-of-cylinders')?.touched">
+                Please enter a valid value for num-of-cyliders
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">engine-size:</label>
+            <input class="form-control" type="number" formControlName="engine-size">
+            <small class="text-danger" *ngIf="carPriceForm.get('engine-size')?.invalid && carPriceForm.get('engine-size')?.touched">
+                Please enter a valid value for engine-size
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">fuel-system:</label>
+            <input class="form-control" type="text" formControlName="fuel-system">
+            <small class="text-danger" *ngIf="carPriceForm.get('fuel-system')?.invalid && carPriceForm.get('fuel-system')?.touched">
+                Please enter a valid value for fuel-system
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">bore:</label>
+            <input class="form-control" type="number" formControlName="bore">
+            <small class="text-danger" *ngIf="carPriceForm.get('bore')?.invalid && carPriceForm.get('bore')?.touched">
+                Please enter a valid value for bore
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">stroke:</label>
+            <input class="form-control" type="number" formControlName="stroke">
+            <small class="text-danger" *ngIf="carPriceForm.get('stroke')?.invalid && carPriceForm.get('stroke')?.touched">
+                Please enter a valid value for stroke
+            </small>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">compression-ratio:</label>
+            <input class="form-control" type="number" formControlName="compression-ratio">
+            <small class="text-danger" *ngIf="carPriceForm.get('compression-ratio')?.invalid && carPriceForm.get('compression-ratio')?.touched">
+                Please enter a valid value for compression-ratio
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">horsepower:</label>
+            <input class="form-control" type="number" formControlName="horsepower">
+            <small class="text-danger" *ngIf="carPriceForm.get('horsepower')?.invalid && carPriceForm.get('horsepower')?.touched">
+                Please enter a valid value for horsepower
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">peak-rpm:</label>
+            <input class="form-control" type="number" formControlName="peak-rpm">
+            <small class="text-danger" *ngIf="carPriceForm.get('peak-rpm')?.invalid && carPriceForm.get('peak-rpm')?.touched">
+                Please enter a valid value for peak-rpm
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">city-mpg:</label>
+            <input class="form-control" type="number" formControlName="city-mpg">
+            <small class="text-danger" *ngIf="carPriceForm.get('city-mpg')?.invalid && carPriceForm.get('city-mpg')?.touched">
+                Please enter a valid value for city-mpg
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">highway-mpg:</label>
+            <input class="form-control" type="number" formControlName="highway-mpg">
+            <small class="text-danger" *ngIf="carPriceForm.get('highway-mpg')?.invalid && carPriceForm.get('highway-mpg')?.touched">
+                Please enter a valid value for highway-mpg
+            </small>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit" [disabled]="carPriceForm.invalid">Submit</button>
+
+</form>
